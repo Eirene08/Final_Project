@@ -80,7 +80,7 @@ int main() {
     printf("\t\t     Input: ");
     scanf("%c", &action);
     option1(&action);
-    // printf("\n\t\t   ALERT: INCORRECT, PLEASE TRY AGAIN!");
+    printf("\n\t\t   ALERT: INCORRECT, PLEASE TRY AGAIN!");
     // return value 0
     getchar();
     return 0;
