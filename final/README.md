@@ -1,0 +1,35 @@
+# Final-Project-ALPRO
+
+TEST CASE:
+
+ARESHA NINO
+62899676345
+Jl.Gn.Sahari XI Rt006/Rw003 Kel.Gunung Sahari Utara 10720
+313131
+2012
+September
+3
+UCUP BAHRUDIN
+62899436553
+Jln. Raya Losari Km 87 No.464, Surabaya (23444), Jawa Timur
+43das5
+2018
+July
+12
+DAIRAH DALILAH
+62843435412
+Jln. Raya Bogor Km 21 No.17 Kramat Jati Kota Jakarta Timur 13540– Indonesia
+21daf2
+2021
+June
+14
+
+NAME & PIN
+UCUP BAHRUDIN
+43das5
+
+ARESHA NINO
+313131
+
+DAIRAH DALILAH
+21daf2
