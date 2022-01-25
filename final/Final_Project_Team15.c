@@ -46,25 +46,31 @@ typedef struct bankData {
 } bankData;
 
 // declare function
+// display team15 (NAMA KELOMPOK)
 void team15();
+// display features menu, jika user blm memiliki akun
 void displayFeaturesN();
+// display features menu, jika user sudah memiliki akun
 void displayFeaturesY();
+// display features menu transaksi. Di menu no 2
 void displayTransaction();
+// membuat file dengan nama bank.txt
 void createFileData();
 void printall();
+// fungsi untuk mengatur opsi yang dipilih user
 int option1(char *act);
+// membuat akun client dengan menginputkan data pribadi
 void createAccount();
+// fungsi untuk masuk ke dalam program dan memastikan user memiliki akun (LOGIN)
 int validationUser(int hasil);
+// fungsi untuk depo / withdraw
 void transaction();
+// fungsi untuk tutup akun
 void closeAccount();
+// fungsi untuk memeriksa akun sekarang(akun yang digunakan saat login)
 void nowUser(char *pin, char *username);
+// display data diri akun user
 void accountInfo();
-
-/**
- * @brief 
- * 
- * @return int 
- */
 
 // main function
 int main() {
@@ -85,6 +91,13 @@ int main() {
     getchar();
     return 0;
 }
+
+/**
+ * @function Info akun client
+ * @object 
+ * @output menampilkan info dari akun klien
+ * @input  
+ */
 
 void accountInfo() {
     bankData s;
