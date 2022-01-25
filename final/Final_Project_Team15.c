@@ -60,6 +60,12 @@ void closeAccount();
 void nowUser(char *pin, char *username);
 void accountInfo();
 
+/**
+ * @brief 
+ * 
+ * @return int 
+ */
+
 // main function
 int main() {
     // declare new variable
@@ -157,10 +163,6 @@ void nowUser(char *pin, char *username) {
             }
             printf("\n\t\t   _______________________________________\n");
         }
-        // if (s1.Saldo == 0) {
-        //     printf("\n\t\t     ALERT: WALLET(IDR) now Rp%lld, to make a transaction. Please make a deposit!\n", s1.Saldo);
-        // }
-        
     } 
     
     fclose(stream);
@@ -213,17 +215,19 @@ void transaction() {
     
     if (choose == 'y' || choose == 'Y') {
         do {
-            // system("cls");
+            system("cls");
             team15();
-            // nowUser(pin, username);
             nowUser(pin, username);
             printf("\n\t\t     ALERT: CHOOSE FEATURES U WANNA USE!\n");
             displayTransaction();
             printf("\t\t     Input: ");
             scanf("%d", &option);
+            system("cls");
             
             switch(option) {
                 case 1:
+                    // system("cls");
+                    nowUser(pin, username);
                     printf("\n\t\t     ALERT: MINIMUM DEPOSITE Rp100.000\n");
                     printf("\n\t\t     Deposit Amount: ");
                     scanf("%lld", &idr);
@@ -231,14 +235,17 @@ void transaction() {
                         printf("\n\t\t    ALERT: MINIMUM DEPOSITE Rp100.000\n");
                         idr = 0;
                     }
+
+                    stream = fopen("bank.txt", "r");
+                    windowlog = fopen("windowlog.txt", "w");
                     
                     while(fread(&s1, sizeof(bankData), 1, stream)) {
                         if((strcmp(s1.pin, pin) == 0) && (strcmp(s1.Name, username) == 0)) {
-                            if(idr != 0){
-                                s1.Saldo += idr;
-                                find = 1;
-                            }else if(idr == 0){
+                            if(idr == 0) {
                                 find = 0;
+                            }else {
+                                s1.Saldo = s1.Saldo + idr;
+                                find = 1;
                             }
                         }
                         fwrite(&s1, sizeof(bankData), 1, windowlog);
@@ -247,46 +254,54 @@ void transaction() {
                     fclose(stream);
                     fclose(windowlog);
                     
-                    if (find) {
+                    if (find == 1) {
                         windowlog = fopen("windowlog.txt", "r");
                         stream = fopen("bank.txt", "w");
                         while (fread(&s1, sizeof(bankData), 1, windowlog)) {
                             fwrite (&s1, sizeof(bankData), 1, stream);
                         }
+                        
                         fclose(stream);
                         fclose(windowlog);
                         printf("\n\t\t     ALERT: DEPOSIT AMOUNT: Rp%lld SUCCESSFULLY ADDED!\n", idr);
-                    }else {
+                    }else if (find == 0) {
                         printf("\n\t\t     ALERT: YOUR DEPOSIT WAS NOT SUCCESSFUL!\n");
                     }
+                    getchar();
                     break;
                 case 2:
+                    system("cls");
                     nowUser(pin, username);
                     printf("\n\t\t     ALERT: MAXIMUM WITHDRAW Rp5.000.000\n");
                     printf("\n\t\t     Withdraw Amount: ");
                     scanf("%lld", &idr);
+                    
                     if (idr > 5000000 || idr < 0) {
                         idr = 0;
                     }
-    
+                    
+                    stream = fopen("bank.txt", "r");
+                    windowlog = fopen("windowlog.txt", "w");
+                    
                     while(fread(&s1, sizeof(bankData), 1, stream)) {
                         if((strcmp(s1.pin, pin) == 0) && (strcmp(s1.Name, username) == 0)) {
-                            if(s1.Saldo >= idr && idr <= 5000000) {
-                                s1.Saldo -= idr;
-                                find = 1;
-                            }
                             if (s1.Saldo < idr) {
-                                break;
+                                find = 0;
+                            }else if (s1.Saldo >= idr) {
+                                s1.Saldo = s1.Saldo - idr;
+                                find = 1;         
                             }
                         }
                         fwrite(&s1, sizeof(bankData), 1, windowlog);
                     }
+
                     fclose(stream);
                     fclose(windowlog);
                     
-                    if (find) {
+                    if (find == 1) {
                         windowlog = fopen("windowlog.txt", "r");
                         stream = fopen("bank.txt", "w");
+                        
                         while (fread(&s1, sizeof(bankData), 1, windowlog)) {
                             fwrite (&s1, sizeof(bankData), 1, stream);
                         }
@@ -296,35 +311,34 @@ void transaction() {
                         
                         if (idr > 0 && idr <= 5000000) {
                             printf("\n\t\t     ALERT: WITHDRAW AMOUNT: Rp%lld SUCCESSFULLY!\n", idr);
+                            getchar();
                         }
-    
-                    }else {
-                        if (idr > 5000000 || idr < 0) {
-                            printf("\n\t\t     ALERT: WITHDRAW WAS NOT SUCCESSFULLY! CHECK AGAIN!\n");
-                        }else if (find == 0) {
-                            printf("\n\t\t     ALERT: YOUR WALLET IS NOT ENOUGH!\n");
-                        }
+                    }else if (find == 0) {
+                        printf("\n\t\t     ALERT: WITHDRAW WAS NOT SUCCESSFULLY! CHECK AGAIN!\n");
+                        printf("\n\t\t     ALERT: YOUR WALLET IS NOT ENOUGH!\n");
                         printf("\n\t\t     ALERT: TRANSACTION FAILED!\n");
                     }
                     break;
                 case 0:
-                    printf("\n\t\t     ALERT: MAIN PROGRAM\n");
+                    printf("\n\t\t     ALERT: RETURN TO THE MAIN PROGRAM\n");
+                    // getchar();
                     break;
                 default:
-                    printf("\n\t\t     ALERT: Incorect, Please Try Again\n");
+                    printf("\n\t\t     ALERT: INCORRECT, PLEASE TRY AGAIN\n");
                     break;
             }
-            fclose(stream);
-            fclose(windowlog);
+            // fclose(stream);
+            // fclose(windowlog);
+            // system("cls");
         } while (option != 0);
-    } else if (choose == 'n' || choose == 'N') {
-        printf("\n\t\t     PRESS ENTER TO RETURN TO THE MAIN MENU!");
     }else {
-        printf("\n\t\t     ALERT: Incorect, Please Try Again\n");
+        printf("\n\t\t     ALERT: INCORRECT, PLEASE TRY AGAIN\n");
     }
 
     fclose(stream);
     fclose(windowlog);
+
+    printf("\n\t\t     PRESS ENTER TO RETURN TO THE MAIN MENU!");
     getchar();
 }
 
@@ -458,7 +472,7 @@ void createAccount() {
 
     if (stream) {
         printf("\n\t\t     ALERT: %d ACCOUNT CREATED SUCCESSFULLY.\n", n);
-    } else if (!stream) {
+    } else if (stream == NULL) {
         printf("\n\t\t     ALERT: DATA FILE WAS NOT CREATED SUCCESSFULLY.\n");
     }
     getchar();
@@ -545,6 +559,7 @@ int option1(char *act) {
                         break;
                 }
                 getchar();
+                system("cls");
             } while (option != 0);
         }else if (*act == 'n' || *act == 'N') {
             system("cls");
@@ -627,17 +642,14 @@ int validationUser(int hasil) {
             hasil = 1;
             
             return hasil;
-        } else if ((strcmp(s.pin, pin) != 0) || (strcmp(s.Name, username) != 0)) {
+        }
+        if ((strcmp(s.pin, pin) != 0) || (strcmp(s.Name, username) != 0)) {
             // printf("Not Found!\n");
             // printf("\n\t\t     ALERT: Sorry, your pin or username was incorrect.\n");
             hasil = 0;
             continue;
         }
-        
-            
-            // printf("\n\t\t     ALERT: Sorry, your pin or username was incorrect.\n");
-            // printf("\t\t            Please double-check your password.\n");
-        }
+    }
         
     fclose(stream);
     
