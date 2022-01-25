@@ -38,7 +38,7 @@ typedef struct bankData {
         char NoPhone[30];
         char Address[200];
     } person;
-    struct  createdTime{
+    struct  createdTime {
         char year[5];
         char month[15];
         char day[3];
@@ -48,17 +48,15 @@ typedef struct bankData {
 // declare function
 // display team15 (NAMA KELOMPOK)
 void team15();
-// display features menu, jika user blm memiliki akun
-void displayFeaturesN();
-// display features menu, jika user sudah memiliki akun
-void displayFeaturesY();
+// display features menu, jika user blm memiliki akun, jika user sudah memiliki akun
+void display(char act);
 // display features menu transaksi. Di menu no 2
 void displayTransaction();
 // membuat file dengan nama bank.txt
 void createFileData();
 void printall();
 // fungsi untuk mengatur opsi yang dipilih user
-int option1(char *act);
+int optionFeatures(char *act);
 // membuat akun client dengan menginputkan data pribadi
 void createAccount();
 // fungsi untuk masuk ke dalam program dan memastikan user memiliki akun (LOGIN)
@@ -74,19 +72,26 @@ void accountInfo();
 
 // main function
 int main() {
+
     // declare new variable
     char action;
     int count;
+    
+    do {
+        team15();
+        printf("\t\t     Do you Have Account?[Y/N]\n");
+        printf("\t\t     Input: ");
+        scanf("%c", &action);
+        if((action != 'y') || (action != 'Y') || (action != 'N') || (action != 'n')) {
+            printf("\n\n\t\t     ALERT: INCORRECT, PLEASE TRY AGAIN!");
+            getchar();
+        }
+        if((action == 'y') || (action == 'Y') || (action == 'N') || (action == 'n')) {
+            optionFeatures(&action);
+        }
+        system("cls");
+    } while((action != 'y') || (action != 'Y') || (action != 'N') || (action != 'n'));    
 
-    // check user account
-
-    // input validation account
-    team15();
-    printf("\t\t     Do you Have Account?[Y/N]\n");
-    printf("\t\t     Input: ");
-    scanf("%c", &action);
-    option1(&action);
-    printf("\n\t\t   ALERT: INCORRECT, PLEASE TRY AGAIN!");
     // return value 0
     getchar();
     return 0;
@@ -99,11 +104,42 @@ int main() {
  * @input  
  */
 
+void display(char act){
+    if (act == 'y') {
+        printf("\t\t     _________________________________________\n");
+        printf("\t\t    |                                         |\n");
+        printf("\t\t    |         - PROGRAM   FEATURES -          |\n");
+        printf("\t\t    |                                         |\n");
+        printf("\t\t    |                                         |\n");
+        printf("\t\t    |   1 ->  ACCOUNT INFO                    |\n");
+        printf("\t\t    |   2 ->  DEPOSIT / WITHDRAW CASH         |\n");
+        printf("\t\t    |   3 ->  CLOSE ACCOUNT                   |\n");
+        printf("\t\t    |   0 ->  EXIT                            |\n");
+        printf("\t\t    |                                         |\n");
+        printf("\t\t    |                                         |\n");
+        printf("\t\t    |       - - -  W E    B A N K  - - -      |\n");
+        printf("\t\t    |_________________________________________|\n");
+    }else if (act == 'n') {
+        printf("\t\t     _________________________________________\n");
+        printf("\t\t    |                                         |\n");
+        printf("\t\t    |         - PROGRAM   FEATURES -          |\n");
+        printf("\t\t    |                                         |\n");
+        printf("\t\t    |   1 -> CREATE FILE DATA                 |\n");
+        printf("\t\t    |   2 -> CREATE ACCOUNT                   |\n");
+        printf("\t\t    |   0 -> MAIN PROGRAM                     |\n");
+        printf("\t\t    |                                         |\n");
+        printf("\t\t    |                                         |\n");
+        printf("\t\t    |       - - -  W E    B A N K  - - -      |\n");
+        printf("\t\t    |_________________________________________|\n");
+    }
+    
+}
+
 void accountInfo() {
     bankData s;
     FILE *stream;
     stream = fopen("bank.txt", "r");
-    
+    int find;
     char pin[9];
     char username[50];
     
@@ -113,7 +149,7 @@ void accountInfo() {
     printf("\t\t\t\t    ---------\n");
 
     fflush(stdin);
-    printf("\n\t\t     Name\t: ");
+    printf("\n\t\t     NAME\t: ");
     scanf("%[^\n]s", username);
 
     fflush(stdin);
@@ -142,7 +178,6 @@ void accountInfo() {
             // getchar();
         }
     }
-
     fclose(stream);
 }
 
@@ -150,31 +185,31 @@ void nowUser(char *pin, char *username) {
     bankData s1;
     FILE *stream;
     stream = fopen("bank.txt", "r");
+    int n = 0, scale = 1;
 
     while(fread(&s1, sizeof(bankData), 1, stream)) {
         if((strcmp(s1.pin, pin) == 0) && (strcmp(s1.Name, username) == 0)) {
-            printf("\n\t\t   _______________________________________\n");
-            printf("\n\t\t    >> CARD NUMBER                ");
-            printf("\n\n\t\t          **** **** **** ****\n");
-            printf("\n\t\t    >> NAME");
-            printf("\n\n\t\t          %s\n", s1.Name);
-            printf("\n\t\t    >> WALLET(IDR)");
-            int n = 0, scale = 1;
+            printf("\n\t\t     _______________________________________\n");
+            printf("\n\t\t        >> CARD NUMBER                ");
+            printf("\n\n\t\t              **** **** **** ****\n");
+            printf("\n\t\t        >> NAME");
+            printf("\n\n\t\t              %s\n", s1.Name);
+            printf("\n\t\t        >> WALLET(IDR)");
             while (s1.Saldo >= 1000) {
                 n = n + scale * (s1.Saldo % 1000);
                 s1.Saldo /= 1000;
                 scale *= 1000;
             }
-           
-            printf ("\n\n\t\t          Rp%lld", s1.Saldo);
-           
+    
+            printf ("\n\n\t\t              Rp%lld", s1.Saldo);
+    
             while (scale != 1) {
                 scale /= 1000;
                 s1.Saldo = n / scale;
                 n = n  % scale;
                 printf (".%03lld", s1.Saldo);
             }
-            printf("\n\t\t   _______________________________________\n");
+            printf("\n\t\t     _______________________________________\n");
         }
     } 
     
@@ -194,7 +229,7 @@ void transaction() {
     printf("\t\t\t\t    ---------\n");
 
     fflush(stdin);
-    printf("\n\t\t     Name\t: ");
+    printf("\n\t\t     NAME\t: ");
     scanf("%[^\n]s", username);
 
     fflush(stdin);
@@ -204,17 +239,16 @@ void transaction() {
     team15();
     stream = fopen("bank.txt", "r");
     
+    nowUser(pin, username);
     while(fread(&s1, sizeof(bankData), 1, stream)) {
         if((strcmp(s1.pin, pin) == 0) && (strcmp(s1.Name, username) == 0)) {
             if (s1.Saldo == 0) {
-                printf("\n\t\t     ALERT: WALLET(IDR) now Rp%lld, to make a transaction. Please make a deposit!\n", s1.Saldo);
+                printf("\n\t\t     ALERT: WALLET(IDR) NOW Rp%lld, TO MAKE A TRANSACTIOB. PLEASE MAKE A DEPOSIT!\n", s1.Saldo);
             }
         }
     } 
-    
     fclose(stream);
-    nowUser(pin, username);
-    
+   
     stream = fopen("bank.txt", "r");
     windowlog = fopen("windowlog.txt", "w");
     
@@ -226,7 +260,7 @@ void transaction() {
     team15();
     nowUser(pin, username);
     
-    if (choose == 'y' || choose == 'Y') {
+    if ((choose == 'y') || (choose == 'Y')) {
         do {
             system("cls");
             team15();
@@ -242,7 +276,7 @@ void transaction() {
                     // system("cls");
                     nowUser(pin, username);
                     printf("\n\t\t     ALERT: MINIMUM DEPOSITE Rp100.000\n");
-                    printf("\n\t\t     Deposit Amount: ");
+                    printf("\n\t\t     DEPOSIT AMOUNT: ");
                     scanf("%lld", &idr);
                     if (idr < 100000) {
                         printf("\n\t\t    ALERT: MINIMUM DEPOSITE Rp100.000\n");
@@ -286,7 +320,7 @@ void transaction() {
                     system("cls");
                     nowUser(pin, username);
                     printf("\n\t\t     ALERT: MAXIMUM WITHDRAW Rp5.000.000\n");
-                    printf("\n\t\t     Withdraw Amount: ");
+                    printf("\n\t\t     WITHDRAW AMOUNT: ");
                     scanf("%lld", &idr);
                     
                     if (idr > 5000000 || idr < 0) {
@@ -343,16 +377,20 @@ void transaction() {
             // fclose(stream);
             // fclose(windowlog);
             // system("cls");
+            getchar();
         } while (option != 0);
+    }else if ((choose == 'n') || (choose == 'N')) {
+        printf("\n\t\t     ALERT: RETURN TO THE MAIN PROGRAM\n");
+        getchar();
     }else {
         printf("\n\t\t     ALERT: INCORRECT, PLEASE TRY AGAIN\n");
+        getchar();
     }
 
     fclose(stream);
     fclose(windowlog);
 
     printf("\n\t\t     PRESS ENTER TO RETURN TO THE MAIN MENU!");
-    getchar();
 }
 
 void closeAccount() {
@@ -378,28 +416,32 @@ void closeAccount() {
     scanf("%[^\n]s", pin);
     printf("\t\t     - - - - - - - - - - - - - - - - - - - - - -\n");
 
-    do {
-        printf("\n\t\t     ALERT: Write \"Delete\" to continue.\n");
-        printf("\n\t\t     Input: ");
-        scanf(" %[^\n]s", delete);
-        if ((strcmp(delete, "Delete!") < 0) || (strcmp(delete, "Delete!") > 0)) {
-            printf("\n\t\t     ALERT: The input does not match the pattern.\n");
-        }
-    } while (strcmp(delete, "Delete!") == 0);
 
     while (fread(&s1, sizeof(bankData), 1, stream)) {
         if((strcmp(s1.pin, pin) == 0) && (strcmp(s1.Name, username) == 0)) {
-            printf("Hahaha");
+            // printf("Hahaha");
             found = 1;
-        }else{
+        }
+        if((strcmp(s1.pin, pin) != 0) && (strcmp(s1.Name, username) != 0)) {
             fwrite(&s1, sizeof(bankData), 1, windowlog);
+            continue;
         }
     }
-
     fclose(stream);
     fclose(windowlog);
+
+
+        printf("\n\t\t     ALERT: WRITE \"Delete\" TO CONTINUE.\n");
+        printf("\n\t\t     Input: ");
+        scanf(" %[^\n]s", delete);
+        if ((strcmp(delete, "Delete") != 0)) {
+            found = 0;
+        }else if ((strcmp(delete, "Delete") != 0)){
+            found = 1;
+        }
+
     
-    if (found) {
+    if (found == 1) {
         windowlog = fopen("windowlog.txt", "r");
         stream = fopen("bank.txt", "w");
 
@@ -410,8 +452,12 @@ void closeAccount() {
         fclose(stream);
         fclose(windowlog);
         printf("\n\t\t     ALERT: ACCOUNT CLOSURE WAS SUCCESSFUL");
-    }else {
-        printf("\n\t\t     ALERT: ACCOUNT WAS NOT FOUND");
+        getchar();
+        printf("\n\t\t     ALERT: PRESS ENTER TO EXIT THE PROGRAM");
+        getchar();
+        exit(1);
+    }else if (found == 0) {
+        printf("\n\t\t     ALERT: ACCOUNT CLOSURE WAS NOT SUCCESSFUL");
     }
 }
 
@@ -480,7 +526,6 @@ void createAccount() {
         fwrite(&s[i], sizeof(bankData), 1, stream);
         printf("\n\t\t     ALERT: ACCOUNT #%d CREATED SUCCESSFULLY.\n", i+1);
         printf("\n\t\t     ____________________________________________________________________\n\n");
-        // getchar();
     }
 
     if (stream) {
@@ -488,9 +533,8 @@ void createAccount() {
     } else if (stream == NULL) {
         printf("\n\t\t     ALERT: DATA FILE WAS NOT CREATED SUCCESSFULLY.\n");
     }
+
     getchar();
-    // system("cls");
-    
     fclose(stream);
 }
 
@@ -507,11 +551,9 @@ void createFileData() {
     
     fclose(stream);
     getchar();
-    // system("cls");
-
 }
 
-int option1(char *act) {
+int optionFeatures(char *act) {
     int valid = 0, option, success, count = 5;
     do {
         if ((*act == 'y') || (*act == 'Y')) {        
@@ -523,12 +565,11 @@ int option1(char *act) {
                 if (count == 0) {
                     getchar();
                     printf("\n\t\t     ALERT: EXIT , YOU EXCEED THE MAXIMUM LIMIT!");
-                    return(-1);
-
+                    return(1);
                 }
                 valid = validationUser(0);
-                printf("\n\t\t     ALERT: Sorry, your pin or username was incorrect.\n");
-                printf("\t\t            Please double-check your password.\n");
+                printf("\n\t\t     ALERT: SORRY, YOUR PIN OR USERNAME WAS INCORRECT.\n");
+                printf("\t\t            PLEASE DOUBLE-CHECK YOUR PASSWORD.\n");
             } while (valid==0);
             system("cls");
 
@@ -537,7 +578,7 @@ int option1(char *act) {
                 printf("\n\t\t     ALERT: CHOOSE FEATURES U WANNA USE!\n");
                 // function calls
 
-                displayFeaturesY();
+                display('y');
                 printf("\t\t     Input: ");
 
                 // input option
@@ -559,6 +600,7 @@ int option1(char *act) {
                     case 3:
                         // function deposite or withdraw call
                         closeAccount();
+                        getchar();
                         break;
                     case 0:
                         // exit program
@@ -566,9 +608,9 @@ int option1(char *act) {
                         exit(1);
                         break;
                     default:
-                        team15();
                         // else condition
-                        printf("\n\t\t     Output: Incorrect, Feature Not Found!\n");
+                        team15();
+                        printf("\n\t\t     Output: INCORRECT, FEATURE NOT FOUND!\n");
                         break;
                 }
                 getchar();
@@ -578,21 +620,16 @@ int option1(char *act) {
             system("cls");
             team15();
             printf("\n\t\t     ALERT: PLEASE CREATE UR ACCOUNT FIRST!\n");
-            do {
-                
+            do {       
                 // function calls
-                displayFeaturesN();
+                display('n');
                 printf("\t\t     Input: ");
                 scanf("%d", &option);
 
                 // condition option of feature
                 switch(option) {
                     case 1:
-                        // function create call
-                        // system("cls");
-                        // team15();
                         createFileData();
-                        
                         break;
                     case 2:
                         // function create call
@@ -615,7 +652,7 @@ int option1(char *act) {
                 getchar();
                 system("cls");
                 team15();
-            } while (option != 0);
+            } while(option != 0);
         }
     }while (1);
 }
@@ -624,6 +661,7 @@ int validationUser(int hasil) {
     FILE *stream;
     bankData s;
     stream = fopen("bank.txt", "r");
+    
     if (stream == NULL) {
         printf("\n\t\t     ALERT: FILE NOT FOUND\n");
         exit(1);
@@ -634,7 +672,6 @@ int validationUser(int hasil) {
     hasil = 0;
 
     // input name & pin
-    // printf("\n\t\t     - - - - - - - - - - - - - - - - - - - - - -\n");
     printf("\n\n\t\t\t\t    ---------\n");
     printf("\t\t\t\t    | LOGIN |\n");
     printf("\t\t\t\t    ---------\n");
@@ -646,58 +683,20 @@ int validationUser(int hasil) {
     fflush(stdin);
     printf("\t\t     PIN \t: ");
     scanf("%[^\n]s", pin);
-    // printf("\t\t     - - - - - - - - - - - - - - - - - - - - - -\n"); 
     
     // Validation
     while(fread(&s, sizeof(bankData), 1, stream)){
         if((strcmp(s.pin, pin) == 0) && (strcmp(s.Name, username) == 0)) {
-            // printf("%s %s", s.Name, s.pin);
             hasil = 1;
-            
             return hasil;
-        }
-        if ((strcmp(s.pin, pin) != 0) || (strcmp(s.Name, username) != 0)) {
-            // printf("Not Found!\n");
-            // printf("\n\t\t     ALERT: Sorry, your pin or username was incorrect.\n");
+        }else if ((strcmp(s.pin, pin) != 0) || (strcmp(s.Name, username) != 0)) {
             hasil = 0;
             continue;
         }
     }
         
     fclose(stream);
-    
     return 0;
-}
-
-void displayFeaturesY() {
-    printf("\t\t     _________________________________________\n");
-    printf("\t\t    |                                         |\n");
-    printf("\t\t    |         - PROGRAM   FEATURES -          |\n");
-    printf("\t\t    |                                         |\n");
-    printf("\t\t    |                                         |\n");
-    printf("\t\t    |   1 ->  ACCOUNT INFO                    |\n");
-    printf("\t\t    |   2 ->  DEPOSIT / WITHDRAW CASH         |\n");
-    printf("\t\t    |   3 ->  CLOSE ACCOUNT                   |\n");
-    printf("\t\t    |   0 ->  EXIT                            |\n");
-    printf("\t\t    |                                         |\n");
-    printf("\t\t    |                                         |\n");
-    printf("\t\t    |       - - -  W E    B A N K  - - -      |\n");
-    printf("\t\t    |_________________________________________|\n");
-}
-
-void displayFeaturesN() {
-    printf("\t\t     _________________________________________\n");
-    printf("\t\t    |                                         |\n");
-    printf("\t\t    |         - PROGRAM   FEATURES -          |\n");
-    printf("\t\t    |                                         |\n");
-    printf("\t\t    |   1 -> CREATE FILE DATA                 |\n");
-    printf("\t\t    |   2 -> CREATE ACCOUNT                   |\n");
-    printf("\t\t    |   0 -> MAIN PROGRAM                     |\n");
-    printf("\t\t    |                                         |\n");
-    printf("\t\t    |                                         |\n");
-    printf("\t\t    |       - - -  W E    B A N K  - - -      |\n");
-    printf("\t\t    |_________________________________________|\n");
-    
 }
 
 void displayTransaction() {
@@ -721,5 +720,4 @@ void team15() {
     printf("\t\t    |  |    \t |  |____ \t|  |   |  |\t|  |  | |  |  |\t ====\n");
     printf("\t\t    |__|    \t |_______|\t|__|   |__|\t|__|  |_|  |__|\t\n\n\n");
     printf("\t\t| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |\n\n\n");
-
 }
