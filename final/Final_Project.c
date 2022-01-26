@@ -31,8 +31,7 @@ TEAM 15:
 
 // Struct
 /**
- * @declare: long long int saldo
- * @declare: char Name[50], pin[10], NoPhone[30], Adress[200], year[5], month[15], day[3]
+ *
  */
 typedef struct bankData {
     lli Saldo;
@@ -74,14 +73,14 @@ void nowUser(char *pin, char *username);
 // display data diri akun user
 void accountInfo();
 
+// main function (untuk menjalankan main function)--> Chrysant 
 /**
- * @description: menjalankan main function
- * @declare: char action
- * @decalre: int count
- * @call: team15()
- * @output: tampilan berdasarkan inputan
+ * @object char --> action
+ * @object int --> count
+ * @call team15()
+ * @output sesuai yang diprint
+ * @input action
  * @return int 
- * @author: Chrysant M
  */
 int main() {
 
@@ -109,12 +108,11 @@ int main() {
     return 0;
 }
 
-
 /**
- * @description: prosedur untuk menampilkan fitur menu berdasarkan inputan
- * @param: char act
- * @output: menampilkan fitur menu berdasarkan inputan
- * @author: Chrysant M
+ * @description : prosedur untuk mendisplay features menu, jika user belum memiliki akun, jika user sudah memiliki akun
+ * @objek char --> act
+ * @output --> sesuai dengan yang diprint
+ * @writer --> Chrysant
  */
 void display(char act){
     if (act == 'y') {
@@ -147,16 +145,19 @@ void display(char act){
     
 }
 
-//accountInfo procedure(mendisplay data diri akun user) --> Chrysant
 /**
- * @description: prosedur untuk  menampilkan data diri client
- * @objek: s ke bankData
- * @declare: int find
- * @declare: char pin[9] , username[50]
- * @call: team15(), 
- * @input: username dan pin client
- * @output: data diri client
- * @author: Chrysant M
+ * @description : prosedur untuk mendisplay data diri akun user
+ * @objek typedef struct bankData --> s
+ * @objek FILE --> *stream
+ * @objek int --> find 
+ * @objek char --> pin[9] dan username[50] 
+ * @*stream --> open bank.txt
+ * @*stream --> read bank.txt
+ * @call team15()
+ * @input username, pin
+ * @output --> sesuai yang diprint
+ * @close stream 
+ * @writer --> Chrysant
  */
 void accountInfo() {
     bankData s;
@@ -204,12 +205,17 @@ void accountInfo() {
     fclose(stream);
 }
 
-
 /**
- * @description: prosedur untuk memeriksa akun yang digunakan saat login
- * @objek: s1 ke bankData
- * @output: 
- * @author: Naufal Daffa
+ * @description : prosedur untuk memeriksa akun sekarang(akun yang digunakan saat login)
+ * @object typedef struct bankData --> s1
+ * @object FILE --> *stream
+ * @object int --> n, scale
+ * @object char  --> *pin, *username
+ * @*stream --> open bank.txt
+ * @*stream --> read bank.txt
+ * @output --> sesuai yang diprint
+ * @close stream
+ * @writer --> Naufal Daffa
  */
 void nowUser(char *pin, char *username) {
     bankData s1;
@@ -247,14 +253,23 @@ void nowUser(char *pin, char *username) {
 }
 
 /**
- * @description: prosedur melakukan deposit dan withdraw
- * @objek: s1 ke bankData
- * @input: username dan pin client, choose, option, idr
- * @call: team15(), nowUser(pin, username)
- * @output: jumlah uang setelah melakukan transaksi
- * @author: Naufal Daffa
- */ 
-
+ * @description : procedure untuk deposit dan withdraw
+ * @objek typedef struct bank data --> s1
+ * @objek FILE --> *stream, *windowlog
+ * @objek char --> pin[9], username[50], choose 
+ * @objek long long int --> idr
+ * @objek int --> find, option
+ * @stream --> open bank.txt
+ * @stream --> read bank.txt
+ * @windowlog --> open windowlog.txt
+ * @windowlog --> write windowlog.txt
+ * @input username, pin, choose, option, idr
+ * @call team15(), nowUser(pin, username), displayTransaction()
+ * @output sesuai yang diprint
+ * @close stream
+ * @close windowlog
+ * @writer --> Naufal Daffa
+ */
 void transaction() {
     bankData s1;
     FILE *stream, *windowlog;
@@ -285,7 +300,7 @@ void transaction() {
                 printf("\n\t\t     ALERT: WALLET(IDR) NOW Rp%lld, TO MAKE A TRANSACTIOB. PLEASE MAKE A DEPOSIT!\n", s1.Saldo);
             }
         }
-    }
+    } 
     fclose(stream);
    
     stream = fopen("bank.txt", "r");
@@ -296,32 +311,27 @@ void transaction() {
     scanf(" %c", &choose);
     
     system("cls");
-    // call function
     team15();
     nowUser(pin, username);
     
     if ((choose == 'y') || (choose == 'Y')) {
         do {
             system("cls");
-            // call function
             team15();
             nowUser(pin, username);
             printf("\n\t\t     ALERT: CHOOSE FEATURES U WANNA USE!\n");
-            
-            // call function
             displayTransaction();
             printf("\t\t     Input: ");
             scanf("%d", &option);
-            
             system("cls");
             
             switch(option) {
                 case 1:
+                    // system("cls");
                     nowUser(pin, username);
                     printf("\n\t\t     ALERT: MINIMUM DEPOSITE Rp100.000\n");
                     printf("\n\t\t     DEPOSIT AMOUNT: ");
                     scanf("%lld", &idr);
-                    
                     if (idr < 100000) {
                         printf("\n\t\t    ALERT: MINIMUM DEPOSITE Rp100.000\n");
                         idr = 0;
@@ -418,6 +428,9 @@ void transaction() {
                     printf("\n\t\t     ALERT: INCORRECT, PLEASE TRY AGAIN\n");
                     break;
             }
+            // fclose(stream);
+            // fclose(windowlog);
+            // system("cls");
             getchar();
         } while (option != 0);
     }else if ((choose == 'n') || (choose == 'N')) {
@@ -435,17 +448,22 @@ void transaction() {
 }
 
 /**
- * @description: prosedur yang menutup akan user
- * @objek: datasets ke bankData
- * @declare: char pin[9], username[50], delete[7]
- * @decare: int found
- * @input: username dan pin client dan kata 'Delete' untuk menutup tabungan
- * @output: tampilan sukses jika berhasil dihapus dan tampilan sukses apabila tidak berhasil dihapus
- * @author: Naufal Daffa
+ * @description : prosedur untuk menutup akun
+ * @objek typedef struct bankData --> s1
+ * @objek FILE --> *stream, *windowlog
+ * @objek char --> pin[9], username[50], delete[7]
+ * @stream --> open bank.txt
+ * @stream --> read bank.txt
+ * @windowlog --> open windowlog.txt
+ * @windowlog --> write windowlog.txt
+ * @close stream
+ * @close windowlog 
+ * @input username, pin, delete
+ * @output sesuai yang diprint
+ * writer --> Naufa Daffa
  */
-
 void closeAccount() {
-    bankData datasets;
+    bankData s1;
     FILE *stream, *windowlog;
 
     stream = fopen("bank.txt", "r");
@@ -468,67 +486,72 @@ void closeAccount() {
     printf("\t\t     - - - - - - - - - - - - - - - - - - - - - -\n");
 
 
-    while (fread(&datasets, sizeof(bankData), 1, stream)) {
-        if((strcmp(datasets.pin, pin) == 0) && (strcmp(datasets.Name, username) == 0)) {
+    while (fread(&s1, sizeof(bankData), 1, stream)) {
+        if((strcmp(s1.pin, pin) == 0) && (strcmp(s1.Name, username) == 0)) {
+            // printf("Hahaha");
             found = 1;
         }
-        if((strcmp(datasets.pin, pin) != 0) && (strcmp(datasets.Name, username) != 0)) {
-            fwrite(&datasets, sizeof(bankData), 1, windowlog);
+        if((strcmp(s1.pin, pin) != 0) && (strcmp(s1.Name, username) != 0)) {
+            fwrite(&s1, sizeof(bankData), 1, windowlog);
             continue;
         }
     }
     fclose(stream);
     fclose(windowlog);
 
-    printf("\n\t\t     ALERT: WRITE \"Delete\" TO CONTINUE.\n");
-    printf("\n\t\t     Input: ");
-    scanf(" %[^\n]s", delete);
-    
-    if ((strcmp(delete, "Delete") != 0)) {
-        found = 0;
-    }else if ((strcmp(delete, "Delete") != 0)){
-        found = 1;
-    }
+
+        printf("\n\t\t     ALERT: WRITE \"Delete\" TO CONTINUE.\n");
+        printf("\n\t\t     Input: ");
+        scanf(" %[^\n]s", delete);
+        if ((strcmp(delete, "Delete") != 0)) {
+            found = 0;
+        }else if ((strcmp(delete, "Delete") != 0)){
+            found = 1;
+        }
+
     
     if (found == 1) {
         windowlog = fopen("windowlog.txt", "r");
         stream = fopen("bank.txt", "w");
 
-        while (fread(&datasets, sizeof(bankData), 1, windowlog)) {
-            fwrite (&datasets, sizeof(bankData), 1, stream);
+        while (fread(&s1, sizeof(bankData), 1, windowlog)) {
+            fwrite (&s1, sizeof(bankData), 1, stream);
         }
+
         fclose(stream);
         fclose(windowlog);
-        
         printf("\n\t\t     ALERT: ACCOUNT CLOSURE WAS SUCCESSFUL");
         getchar();
         printf("\n\t\t     ALERT: PRESS ENTER TO EXIT THE PROGRAM");
         getchar();
-        // exit program
         exit(1);
     }else if (found == 0) {
         printf("\n\t\t     ALERT: ACCOUNT CLOSURE WAS NOT SUCCESSFUL");
     }
 }
 
-// for maintenance
 /**
- * @description: prosedur menampilkan info client
- * @objek: datasets ke bankData
- * @author: Chrysant M
+ * @description : procedure untuk ngeprint info nasabah 
+ * @objek typedef struct bankData --> s1
+ * @objek FILE --> *stream 
+ * @stream --> open bank.txt
+ * @stream --> read bank.txt
+ * @close stream
+ * @output sesuai yang diprint
+ * @writer --> Chrysant
  */
 void printall() {
-    bankData datasets;
+    bankData s1;
     FILE *stream;
     stream = fopen("bank.txt", "r");
 
-    while(fread(&datasets, sizeof(bankData), 1, stream)) {
+    while(fread(&s1, sizeof(bankData), 1, stream)) {
         printf("\n\t\t     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n");
-        printf("\n\t\t     Nama: %s\n", datasets.Name);
-        printf("\n\t\t     PIN: %s\n", datasets.pin);
-        printf("\n\t\t     No HP: %s\n", datasets.person.NoPhone);
-        printf("\n\t\t     Address: %s\n", datasets.person.Address);
-        printf("\n\t\t     Created: %s/%s/%s\n", datasets.times.year, datasets.times.month, datasets.times.day);
+        printf("\n\t\t     Nama: %s\n", s1.Name);
+        printf("\n\t\t     PIN: %s\n", s1.pin);
+        printf("\n\t\t     No HP: %s\n", s1.person.NoPhone);
+        printf("\n\t\t     Address: %s\n", s1.person.Address);
+        printf("\n\t\t     Created: %s/%s/%s\n", s1.times.year, s1.times.month, s1.times.day);
         printf("\n\t\t     - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -\n");
     }
     fclose(stream);
@@ -536,66 +559,62 @@ void printall() {
 }
 
 /**
- * @description: prosedur membuat akun disertai data client
- * @objek: pointer dataset ke struct bankData
- * @input: banyak akun yang dibuat(n)
- * @output: tampilkan sukses jika akun berhasil dibuat, serta gagal jika akun tidak berhasil dibuat
- * @author: Chrysant M
+ * @description : prosedur untuk membuat akun untuk client dengan menginputkan data pribadi
+ * @objek typedef struct bankData --> *s
+ * @objek FILE --> *stream
+ * @objek int --> i, n
+ * @stream --> open bank.txt
+ * @stream --> append bank.txt
+ * @input n, s[i].Name, s[i].person.NoPhone, s[i].person.Address, s[i].pin, s[i].times.year, s[i].times.month, s[i].times.day
+ * @output sesuai yang diprint
+ * @close stream
+ * @writer --> Naufal Daffa
  */
-
 void createAccount() {
-    bankData *dataset;
+    bankData *s;
     FILE *stream;
     stream = fopen("bank.txt", "a");
     int n, i;
 
-    dataset = (bankData*) calloc(n, sizeof(bankData));
     printf("\t\t     How many account u wanna create: ");
     scanf("%d", &n);
 
+    s = (bankData*) calloc(n, sizeof(bankData));
 
     for (i = 0; i < n; i++) {
         printf("\n\t\t\t\t          ___________________________\n");
         printf("\n\t\t\t\t               CREATE ACCOUNT #%d", i+1);
         printf("\n\t\t\t\t          ___________________________\n");
-        
-        // input nama client
         fflush(stdin);
         printf("\n\t\t     ____________________________________________________________________\n\n");
         printf("\n\t\t      >> NAME         : ");
-        scanf("%[^\n]s", dataset[i].Name);
-        
-        // input kontak client
+        scanf("%[^\n]s", s[i].Name);
+
         fflush(stdin);
         printf("\n\t\t      >> NUMBER PHONE : ");
-        scanf("%[^\n]s", dataset[i].person.NoPhone);
+        scanf("%[^\n]s", s[i].person.NoPhone);
 
-        // input alamat client
         fflush(stdin);
         printf("\n\t\t      >> ADDRESS      : ");
-        scanf("%[^\n]s", dataset[i].person.Address);
+        scanf("%[^\n]s", s[i].person.Address);
 
-        // input pin akun
         fflush(stdin);
         printf("\n\t\t      >> PIN          : ");
-        scanf("%[^\n]s", dataset[i].pin);
+        scanf("%[^\n]s", s[i].pin);
         
-        // input tahun pembuatan akun
         fflush(stdin);
         printf("\n\t\t      >> YEAR         : ");
-        scanf("%[^\n]s", dataset[i].times.year);
+        scanf("%[^\n]s", s[i].times.year);
 
-        // input bulan pembuatan akun
         fflush(stdin);
         printf("\n\t\t      >> MONTH        : ");
-        scanf("%[^\n]s", dataset[i].times.month);
+        scanf("%[^\n]s", s[i].times.month);
 
-        // input tanggal pembuatan akun
         fflush(stdin);
         printf("\n\t\t      >> DAY          : ");
-        scanf("%[^\n]s", dataset[i].times.day);
+        scanf("%[^\n]s", s[i].times.day);
 
-        fwrite(&dataset[i], sizeof(bankData), 1, stream);
+        fwrite(&s[i], sizeof(bankData), 1, stream);
         printf("\n\t\t     ALERT: ACCOUNT #%d CREATED SUCCESSFULLY.\n", i+1);
         printf("\n\t\t     ____________________________________________________________________\n\n");
     }
@@ -611,14 +630,17 @@ void createAccount() {
 }
 
 /**
- * @description: prosedur yang membuat file dengan nama bank.txt
- * @objek: pointer dataset ke struct bankData
- * @output: tampilkan sukses jika file data  berhasil dibuat, serta gagal jika file data tidak berhasil dibuat
- * @author: Ayasha K
+ * @description : prosedur untuk membuat file dengan nama bank.txt)
+ * @objek typedef struct bankData --> *s
+ * @objek FILE --> *stream
+ * @stream --> open bank.txt
+ * @stream --> write bank.txt
+ * @output -- sesuai yang diprint
+ * @close stream
+ * @writer --> Ayasha
  */
-
 void createFileData() {
-    bankData *dataset;
+    bankData *s;
     FILE *stream;
     stream = fopen("bank.txt", "w");
     
@@ -633,16 +655,16 @@ void createFileData() {
 }
 
 /**
- * @description: fungsi yang memiliki mengeksekusi opsi fitur yang diinputkan
- * @param: char *act
- * @declare: int valid, option, count
- * @call: team15(), display(), accountInfo(), transaction(), closeAccount(), createFileData(), createAccount()
- * @author: Naufal Daffa
- * @return: mengeksekusi prosedur atau fungsi berdasarkan fitur dan input
+ * @description : fungsi untuk mengatur opsi yang dipilih user
+ * @objek char -- *act
+ * @objek int --> valid, option, success, count
+ * @call team15(), display(), accountInfo(), transaction(), closeAccount(), createFileData(), createAccount()
+ * @input option
+ * @output sesuai yang diprint
+ * @writer --> Naufal Daffa
  */
-
 int optionFeatures(char *act) {
-    int valid = 0, option, count = 5;
+    int valid = 0, option, success, count = 5;
     do {
         if ((*act == 'y') || (*act == 'Y')) {        
             system("cls");
@@ -664,8 +686,8 @@ int optionFeatures(char *act) {
             do {
                 team15();
                 printf("\n\t\t     ALERT: CHOOSE FEATURES U WANNA USE!\n");
-
                 // function calls
+
                 display('y');
                 printf("\t\t     Input: ");
 
@@ -724,6 +746,7 @@ int optionFeatures(char *act) {
                         system("cls");
                         team15();
                         createAccount();
+                        success = 1;
                         break;
                     case 0:
                         // exit program
@@ -745,12 +768,18 @@ int optionFeatures(char *act) {
 }
 
 /**
- * @description: fungsi pengecekan akun dan memastikan user memiliki akun untuk login
- * @param: int hasil
- * @return: hasil = 1 jika valid, serta hasil = 0 jika tidak valid dengan Nama dan Pin
- * @writer: Naufal Daffa
+ * @description : fungsi untuk masuk ke dalam program dan memastikan user memiliki akun (LOGIN))
+ * @objek int --> hasil
+ * @objek FILE --> *stream
+ * @objek typedef struct bankData --> s
+ * @objek char --> pin[9] , username[50]
+ * @input username, pin
+ * @stream --> open bank.txt
+ * @stream --> read bank.txt
+ * close stream 
+ * output sesuai yang diprint
+ * @writer --> Naufal Daffa
  */ 
-
 int validationUser(int hasil) {
     FILE *stream;
     bankData s;
@@ -794,10 +823,10 @@ int validationUser(int hasil) {
 }
 
 /**
- * @description: prosedur menampilkan fitur menu transaksi.
- * @writer: Chrysant
+ * @description : prosedur untuk display features menu transaksi. Di menu no 2
+ * @output sesuai yang diprint
+ * @writer --> Chrysant
  */
-
 void displayTransaction() {
     printf("\t\t     _________________________________________\n");
     printf("\t\t    |                                         |\n");
@@ -811,10 +840,10 @@ void displayTransaction() {
 }
 
 /**
- * @description: prosedur untuk menampilkan "Team 15"
- * @writer: Chrysant
+ * @description : prosedur untuk mendisplay "Team 15"
+ * @output sesuai yang diprint
+ * @writer --> Chrysant
  */
-
 void team15() {
     printf("\n\n");
     printf("\t\t __________ \t  _______ \t   ______ \t _____________  \t\n");

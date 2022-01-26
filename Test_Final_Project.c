@@ -31,8 +31,8 @@ TEAM 15:
 
 // Struct
 /**
- * @declare: long long int saldo
- * @declare: char Name[50], pin[10], NoPhone[30], Adress[200], year[5], month[15], day[3]
+ * mendeklarasikan saldo sebagai long long int
+ * mendeklarasikan Nama, pin, NoPhone, Adress, year, month, day sebagai char
  */
 typedef struct bankData {
     lli Saldo;
@@ -74,14 +74,20 @@ void nowUser(char *pin, char *username);
 // display data diri akun user
 void accountInfo();
 
+// main function (untuk menjalankan main function)--> Chrysant 
 /**
- * @description: menjalankan main function
- * @declare: char action
- * @decalre: int count
- * @call: team15()
- * @output: tampilan berdasarkan inputan
+ * @object char --> action
+ * @object int --> count
+ * @do
+ * @call team15()
+ * @output --> "Do you Have Account?[Y/N]" dan "Input:"
+ * @input action
+ * @if action tidak sama dengan 'y', 'Y', 'n', atau 'N', output --> " ALERT: INCORRECT, PLEASE TRY AGAIN!" dan call getchar()
+ * @if action sama dengan 'y', 'Y', 'n', atau 'N', call optionFeatures(&action)
+ * @call system("cls")
+ * @while 
+ * @action tidak sama dengan 'y', 'Y', 'n', atau 'N'
  * @return int 
- * @author: Chrysant M
  */
 int main() {
 
@@ -109,12 +115,10 @@ int main() {
     return 0;
 }
 
-
+//display procedure (untuk mendisplay features menu, jika user belum memiliki akun, jika user sudah memiliki akun)--> Chrysant
 /**
- * @description: prosedur untuk menampilkan fitur menu berdasarkan inputan
- * @param: char act
- * @output: menampilkan fitur menu berdasarkan inputan
- * @author: Chrysant M
+ * @objek char --> act
+ * @output --> sesuai dengan yang diprint
  */
 void display(char act){
     if (act == 'y') {
@@ -149,14 +153,16 @@ void display(char act){
 
 //accountInfo procedure(mendisplay data diri akun user) --> Chrysant
 /**
- * @description: prosedur untuk  menampilkan data diri client
- * @objek: s ke bankData
- * @declare: int find
- * @declare: char pin[9] , username[50]
- * @call: team15(), 
- * @input: username dan pin client
- * @output: data diri client
- * @author: Chrysant M
+ * @objek typedef struct bankData --> s
+ * @objek FILE --> *stream
+ * @objek int --> find 
+ * @objek char --> pin[9] dan username[50] 
+ * @*stream --> open bank.txt
+ * @*stream --> read bank.txt
+ * @call team15(), fflush(stdin), system("cls")
+ * @input username, pin
+ * @output --> sesuai yang diprint
+ * @close stream 
  */
 void accountInfo() {
     bankData s;
@@ -204,12 +210,16 @@ void accountInfo() {
     fclose(stream);
 }
 
-
+//nowUser procedure (Fungsi untuk memeriksa akun sekarang(akun yang digunakan saat login)) --> Naufal Daffa
 /**
- * @description: prosedur untuk memeriksa akun yang digunakan saat login
- * @objek: s1 ke bankData
- * @output: 
- * @author: Naufal Daffa
+ * @object typedef struct bankData --> s1
+ * @object FILE --> stream
+ * @object int --> n, scale
+ * @object char  --> *pin, *username
+ * @*stream --> open bank.txt
+ * @*stream --> read bank.txt
+ * @output --> sesuai yang diprint
+ * @close stream
  */
 void nowUser(char *pin, char *username) {
     bankData s1;
@@ -247,9 +257,9 @@ void nowUser(char *pin, char *username) {
 }
 
 /**
- * @description: prosedur melakukan deposit dan withdraw
- * @objek: s1 ke bankData
- * @input: username dan pin client, choose, option, idr
+ * @description: prosedur melakukan deposit & withdraw
+ * @objek: datasets
+ * @input: username, pin, choose, option, idr
  * @call: team15(), nowUser(pin, username)
  * @output: jumlah uang setelah melakukan transaksi
  * @author: Naufal Daffa
@@ -436,11 +446,10 @@ void transaction() {
 
 /**
  * @description: prosedur yang menutup akan user
- * @objek: datasets ke bankData
- * @declare: char pin[9], username[50], delete[7]
- * @decare: int found
- * @input: username dan pin client dan kata 'Delete' untuk menutup tabungan
- * @output: tampilan sukses jika berhasil dihapus dan tampilan sukses apabila tidak berhasil dihapus
+ * @objek: typedef struct bankData --> s1
+ * @declare: variabel pin, username, delete
+ * @input: username, pin, delete
+ * @output: sesuai yang diprint
  * @author: Naufal Daffa
  */
 
@@ -512,11 +521,6 @@ void closeAccount() {
 }
 
 // for maintenance
-/**
- * @description: prosedur menampilkan info client
- * @objek: datasets ke bankData
- * @author: Chrysant M
- */
 void printall() {
     bankData datasets;
     FILE *stream;
@@ -635,7 +639,7 @@ void createFileData() {
 /**
  * @description: fungsi yang memiliki mengeksekusi opsi fitur yang diinputkan
  * @param: char *act
- * @declare: int valid, option, count
+ * @objek: integer valid, option, count
  * @call: team15(), display(), accountInfo(), transaction(), closeAccount(), createFileData(), createAccount()
  * @author: Naufal Daffa
  * @return: mengeksekusi prosedur atau fungsi berdasarkan fitur dan input
