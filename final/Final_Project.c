@@ -625,8 +625,8 @@ void createAccount() {
     fclose(stream);
 }
 
-//createFileData (untuk membuat file dengan nama bank.txt) --> Ayasha 
 /**
+ * @createFileData prosedur untuk membuat file dengan nama bank.txt) --> Ayasha 
  * @objek typedef struct bankData --> *s
  * @objek FILE --> *stream
  * @stream --> open bank.txt
@@ -649,13 +649,14 @@ void createFileData() {
     getchar();
 }
 
-// optionFeatures function (function untuk mengatur opsi yang dipilih user)--> Naufal Daffa
 /**
+ * @optionFeatures function untuk mengatur opsi yang dipilih user
  * @objek char -- *act
  * @objek int --> valid, option, success, count
  * @call team15(), display(), accountInfo(), transaction(), closeAccount(), createFileData(), createAccount()
  * @input option
  * @output sesuai yang diprint
+ * @writer --> Naufal Daffa
  */
 int optionFeatures(char *act) {
     int valid = 0, option, success, count = 5;
@@ -761,13 +762,19 @@ int optionFeatures(char *act) {
     }while (1);
 }
 
-//validationUser function (fungsi untuk masuk ke dalam program dan memastikan user memiliki akun (LOGIN))
 /**
- * @
- * 
- * @param hasil 
- * @return int 
- */
+ * @description :ngsi untuk masuk ke dalam program dan memastikan user memiliki akun (LOGIN))
+ * @objek int --> hasil
+ * @objek FILE --> *stream
+ * @objek typedef struct bankData --> s
+ * @objek char --> pin[9] , username[50]
+ * @input username, pin
+ * @stream --> open bank.txt
+ * @stream --> read bank.txt
+ * close stream 
+ * output sesuai yang diprint
+ * @writer --> Naufal Daffa
+ */ 
 int validationUser(int hasil) {
     FILE *stream;
     bankData s;
@@ -810,6 +817,11 @@ int validationUser(int hasil) {
     return 0;
 }
 
+/**
+ * @description : prosedur untuk display features menu transaksi. Di menu no 2
+ * @output sesuai yang diprint
+ * @writer --> Chrysant
+ */
 void displayTransaction() {
     printf("\t\t     _________________________________________\n");
     printf("\t\t    |                                         |\n");
@@ -822,6 +834,11 @@ void displayTransaction() {
     printf("\t\t    |_________________________________________|\n");
 }
 
+/**
+ * @description : prosedur untuk mendisplay "Team 15"
+ * @output sesuai yang diprint
+ * @writer --> Chrysant
+ */
 void team15() {
     printf("\n\n");
     printf("\t\t __________ \t  _______ \t   ______ \t _____________  \t\n");
