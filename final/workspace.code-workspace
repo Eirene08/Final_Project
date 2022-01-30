@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"name": "Final_Project2",
+			"path": ".."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"stdlib.h": "c"
+		}
+	}
+}

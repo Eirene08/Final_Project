@@ -90,7 +90,7 @@ int main() {
     int count;
     
     do {
-        team15();
+        team15(); // display team15 (NAMA KELOMPOK)
         printf("\t\t     Do you Have Account?[Y/N]\n");
         printf("\t\t     Input: ");
         scanf("%c", &action);
@@ -99,7 +99,7 @@ int main() {
             getchar();
         }
         if((action == 'y') || (action == 'Y') || (action == 'N') || (action == 'n')) {
-            optionFeatures(&action);
+            optionFeatures(&action); // membuat akun client dengan menginputkan data pribadi
         }
         system("cls");
     } while((action != 'y') || (action != 'Y') || (action != 'N') || (action != 'n'));    
@@ -166,7 +166,7 @@ void accountInfo() {
     char pin[9];
     char username[50];
     
-    team15();
+    team15(); //display team15
     printf("\n\n\t\t\t\t    ---------\n");
     printf("\t\t\t\t    | LOGIN |\n");
     printf("\t\t\t\t    ---------\n");
@@ -208,7 +208,7 @@ void accountInfo() {
 /**
  * @description: prosedur untuk memeriksa akun yang digunakan saat login
  * @objek: s1 ke bankData
- * @output: 
+ * @output: info dari data client
  * @author: Naufal Daffa
  */
 void nowUser(char *pin, char *username) {
@@ -275,10 +275,10 @@ void transaction() {
     printf("\t\t     PIN \t: ");
     scanf("%[^\n]s", pin);
     system("cls");
-    team15();
+    team15(); //display team15
     stream = fopen("bank.txt", "r");
     
-    nowUser(pin, username);
+    nowUser(pin, username); //untuk memeriksa akun sekarang
     while(fread(&s1, sizeof(bankData), 1, stream)) {
         if((strcmp(s1.pin, pin) == 0) && (strcmp(s1.Name, username) == 0)) {
             if (s1.Saldo == 0) {
@@ -297,8 +297,8 @@ void transaction() {
     
     system("cls");
     // call function
-    team15();
-    nowUser(pin, username);
+    team15(); //display team15
+    nowUser(pin, username); //untuk memeriksa akun sekarang
     
     if ((choose == 'y') || (choose == 'Y')) {
         do {
@@ -309,7 +309,7 @@ void transaction() {
             printf("\n\t\t     ALERT: CHOOSE FEATURES U WANNA USE!\n");
             
             // call function
-            displayTransaction();
+            displayTransaction();//display fitur menu transaksi
             printf("\t\t     Input: ");
             scanf("%d", &option);
             
@@ -362,7 +362,7 @@ void transaction() {
                     break;
                 case 2:
                     system("cls");
-                    nowUser(pin, username);
+                    nowUser(pin, username); 
                     printf("\n\t\t     ALERT: MAXIMUM WITHDRAW Rp5.000.000\n");
                     printf("\n\t\t     WITHDRAW AMOUNT: ");
                     scanf("%lld", &idr);
@@ -655,7 +655,7 @@ int optionFeatures(char *act) {
                     printf("\n\t\t     ALERT: EXIT , YOU EXCEED THE MAXIMUM LIMIT!");
                     return(1);
                 }
-                valid = validationUser(0);
+                valid = validationUser(0); //untuk masuk ke dalam program dan memastikan user memiliki akun (LOGIN)
                 printf("\n\t\t     ALERT: SORRY, YOUR PIN OR USERNAME WAS INCORRECT.\n");
                 printf("\t\t            PLEASE DOUBLE-CHECK YOUR PASSWORD.\n");
             } while (valid==0);
@@ -710,7 +710,7 @@ int optionFeatures(char *act) {
             printf("\n\t\t     ALERT: PLEASE CREATE UR ACCOUNT FIRST!\n");
             do {       
                 // function calls
-                display('n');
+                display('n'); //display features menu
                 printf("\t\t     Input: ");
                 scanf("%d", &option);
 
@@ -723,7 +723,7 @@ int optionFeatures(char *act) {
                         // function create call
                         system("cls");
                         team15();
-                        createAccount();
+                        createAccount(); //membuat akun
                         break;
                     case 0:
                         // exit program

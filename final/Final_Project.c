@@ -31,7 +31,8 @@ TEAM 15:
 
 // Struct
 /**
- *
+ * @declare: long long int saldo
+ * @declare: char Name[50], pin[10], NoPhone[30], Adress[200], year[5], month[15], day[3]
  */
 typedef struct bankData {
     lli Saldo;
@@ -73,14 +74,14 @@ void nowUser(char *pin, char *username);
 // display data diri akun user
 void accountInfo();
 
-// main function (untuk menjalankan main function)--> Chrysant 
 /**
- * @object char --> action
- * @object int --> count
- * @call team15()
- * @output sesuai yang diprint
- * @input action
+ * @description: menjalankan main function
+ * @declare: char action
+ * @decalre: int count
+ * @call: team15()
+ * @output: tampilan berdasarkan inputan
  * @return int 
+ * @author: Chrysant M
  */
 int main() {
 
@@ -109,10 +110,10 @@ int main() {
 }
 
 /**
- * @description : prosedur untuk mendisplay features menu, jika user belum memiliki akun, jika user sudah memiliki akun
- * @objek char --> act
- * @output --> sesuai dengan yang diprint
- * @writer --> Chrysant
+ * @description: prosedur untuk menampilkan fitur menu berdasarkan inputan
+ * @param: char act
+ * @output: menampilkan fitur menu berdasarkan inputan
+ * @author: Chrysant M
  */
 void display(char act){
     if (act == 'y') {
@@ -146,18 +147,14 @@ void display(char act){
 }
 
 /**
- * @description : prosedur untuk mendisplay data diri akun user
- * @objek typedef struct bankData --> s
- * @objek FILE --> *stream
- * @objek int --> find 
- * @objek char --> pin[9] dan username[50] 
- * @*stream --> open bank.txt
- * @*stream --> read bank.txt
- * @call team15()
- * @input username, pin
- * @output --> sesuai yang diprint
- * @close stream 
- * @writer --> Chrysant
+ * @description: prosedur untuk  menampilkan data diri client
+ * @objek: s ke bankData
+ * @declare: int find
+ * @declare: char pin[9] , username[50]
+ * @call: team15(), 
+ * @input: username dan pin client
+ * @output: data diri client
+ * @author: Chrysant M
  */
 void accountInfo() {
     bankData s;
@@ -206,16 +203,10 @@ void accountInfo() {
 }
 
 /**
- * @description : prosedur untuk memeriksa akun sekarang(akun yang digunakan saat login)
- * @object typedef struct bankData --> s1
- * @object FILE --> *stream
- * @object int --> n, scale
- * @object char  --> *pin, *username
- * @*stream --> open bank.txt
- * @*stream --> read bank.txt
- * @output --> sesuai yang diprint
- * @close stream
- * @writer --> Naufal Daffa
+ * @description: prosedur untuk memeriksa akun yang digunakan saat login
+ * @objek: s1 ke bankData
+ * @output: info dari data client
+ * @author: Naufal Daffa
  */
 void nowUser(char *pin, char *username) {
     bankData s1;
@@ -253,23 +244,13 @@ void nowUser(char *pin, char *username) {
 }
 
 /**
- * @description : procedure untuk deposit dan withdraw
- * @objek typedef struct bank data --> s1
- * @objek FILE --> *stream, *windowlog
- * @objek char --> pin[9], username[50], choose 
- * @objek long long int --> idr
- * @objek int --> find, option
- * @stream --> open bank.txt
- * @stream --> read bank.txt
- * @windowlog --> open windowlog.txt
- * @windowlog --> write windowlog.txt
- * @input username, pin, choose, option, idr
- * @call team15(), nowUser(pin, username), displayTransaction()
- * @output sesuai yang diprint
- * @close stream
- * @close windowlog
- * @writer --> Naufal Daffa
- */
+ * @description: prosedur melakukan deposit dan withdraw
+ * @objek: s1 ke bankData
+ * @input: username dan pin client, choose, option, idr
+ * @call: team15(), nowUser(pin, username)
+ * @output: jumlah uang setelah melakukan transaksi
+ * @author: Naufal Daffa
+ */ 
 void transaction() {
     bankData s1;
     FILE *stream, *windowlog;
@@ -448,20 +429,14 @@ void transaction() {
 }
 
 /**
- * @description : prosedur untuk menutup akun
- * @objek typedef struct bankData --> s1
- * @objek FILE --> *stream, *windowlog
- * @objek char --> pin[9], username[50], delete[7]
- * @stream --> open bank.txt
- * @stream --> read bank.txt
- * @windowlog --> open windowlog.txt
- * @windowlog --> write windowlog.txt
- * @close stream
- * @close windowlog 
- * @input username, pin, delete
- * @output sesuai yang diprint
- * writer --> Naufa Daffa
- */
+ * @description: prosedur yang menutup akan user
+ * @objek: datasets ke bankData
+ * @declare: char pin[9], username[50], delete[7]
+ * @decare: int found
+ * @input: username dan pin client dan kata 'Delete' untuk menutup tabungan
+ * @output: tampilan sukses jika berhasil dihapus dan tampilan sukses apabila tidak berhasil dihapus
+ * @author: Naufal Daffa
+ */ //BEDA
 void closeAccount() {
     bankData s1;
     FILE *stream, *windowlog;
@@ -531,15 +506,10 @@ void closeAccount() {
 }
 
 /**
- * @description : procedure untuk ngeprint info nasabah 
- * @objek typedef struct bankData --> s1
- * @objek FILE --> *stream 
- * @stream --> open bank.txt
- * @stream --> read bank.txt
- * @close stream
- * @output sesuai yang diprint
- * @writer --> Chrysant
- */
+ * @description: prosedur menampilkan info client
+ * @objek: datasets ke bankData
+ * @author: Chrysant M
+ */ //BEDA
 void printall() {
     bankData s1;
     FILE *stream;
@@ -559,17 +529,12 @@ void printall() {
 }
 
 /**
- * @description : prosedur untuk membuat akun untuk client dengan menginputkan data pribadi
- * @objek typedef struct bankData --> *s
- * @objek FILE --> *stream
- * @objek int --> i, n
- * @stream --> open bank.txt
- * @stream --> append bank.txt
- * @input n, s[i].Name, s[i].person.NoPhone, s[i].person.Address, s[i].pin, s[i].times.year, s[i].times.month, s[i].times.day
- * @output sesuai yang diprint
- * @close stream
- * @writer --> Naufal Daffa
- */
+ * @description: prosedur membuat akun disertai data client
+ * @objek: pointer dataset ke struct bankData
+ * @input: banyak akun yang dibuat(n)
+ * @output: tampilkan sukses jika akun berhasil dibuat, serta gagal jika akun tidak berhasil dibuat
+ * @author: Chrysant M
+ */ //BEDA
 void createAccount() {
     bankData *s;
     FILE *stream;
@@ -823,9 +788,8 @@ int validationUser(int hasil) {
 }
 
 /**
- * @description : prosedur untuk display features menu transaksi. Di menu no 2
- * @output sesuai yang diprint
- * @writer --> Chrysant
+ * @description: prosedur menampilkan fitur menu transaksi.
+ * @writer: Chrysant
  */
 void displayTransaction() {
     printf("\t\t     _________________________________________\n");
@@ -840,9 +804,8 @@ void displayTransaction() {
 }
 
 /**
- * @description : prosedur untuk mendisplay "Team 15"
- * @output sesuai yang diprint
- * @writer --> Chrysant
+ * @description: prosedur untuk menampilkan "Team15
+ * @writer: Chrysant
  */
 void team15() {
     printf("\n\n");

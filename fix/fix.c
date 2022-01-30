@@ -140,7 +140,7 @@ void display(char act){
 //accountInfo procedure(mendisplay data diri akun user) --> Chrysant
 /**
  * @description: prosedur untuk  menampilkan data diri client
- * @objek: s ke bankData
+ * @objek: dataset ke bankData
  * @declare: int find
  * @declare: char pin[9] , username[50]
  * @call: team15(), 
@@ -197,8 +197,8 @@ void accountInfo() {
 
 /**
  * @description: void function paramater untuk memeriksa akun yang digunakan saat login
- * @objek: s1 ke bankData
- * @output: 
+ * @objek: datasets ke bankData
+ * @output: saldo user
  * @author: Naufal Daffa
  */
 
@@ -239,7 +239,7 @@ void nowUser(char *pin, char *username) {
 
 /**
  * @description: prosedur melakukan deposit dan withdraw
- * @objek: s1 ke bankData
+ * @objek: datasets ke bankData
  * @input: char username dan char pin , int choose, int option, int find, long long integer idr
  * @call: team15(), nowUser(pin, username)
  * @output: jumlah saldo(wallet idr) setelah melakukan transaksi
